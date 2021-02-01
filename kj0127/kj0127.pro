@@ -21,6 +21,12 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    include/AdvMotApi.h \
+    include/AdvMotDev.h \
+    include/AdvMotDrv.h \
+    include/AdvMotErr.h \
+    include/AdvMotPropID.h \
+    include/MyParameter.h \
     login.h \
     mainwindow.h
 
@@ -38,3 +44,10 @@ DISTFILES += \
 
 RESOURCES += \
     res.qrc
+
+unix|win32: LIBS += -L$$PWD/lib/ -lADVMOT
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include
+
+

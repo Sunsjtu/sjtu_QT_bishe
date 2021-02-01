@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -21,6 +21,20 @@ private slots:
     void on_pushButton_2_clicked();
 
     void on_pushButton_3_clicked();
+
+    void on_comboBox_2_currentIndexChanged(int index);
+
+    void on_radioButton_clicked(bool checked);
+
+    void on_radioButton_2_clicked(bool checked);
+
+    void on_pushButton_AxMov_clicked();
+
+    void on_pushButton_AxInit_clicked();
+
+    void on_pushButton_AxStop_clicked();
+
+    void on_pushButton_AxPosReset_clicked();
 
 private:
     Ui::MainWindow *ui;
