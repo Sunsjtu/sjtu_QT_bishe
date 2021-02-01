@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QTabWidget" name="tabWidget">
@@ -37,7 +37,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -468,6 +468,113 @@
        <attribute name="title">
         <string> 分析统计</string>
        </attribute>
+       <widget class="QGroupBox" name="groupBox_6">
+        <property name="geometry">
+         <rect>
+          <x>580</x>
+          <y>10</y>
+          <width>581</width>
+          <height>501</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>当前检测数据</string>
+        </property>
+        <widget class="QTableWidget" name="tableWidget">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>551</width>
+           <height>471</height>
+          </rect>
+         </property>
+         <column>
+          <property name="text">
+           <string>所属孔号</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>X坐标</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Y坐标</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>是否通过检测</string>
+          </property>
+         </column>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_7">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>10</y>
+          <width>541</width>
+          <height>501</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>历史数据查询</string>
+        </property>
+        <widget class="QListView" name="listView">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>90</y>
+           <width>511</width>
+           <height>391</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>11</x>
+           <y>30</y>
+           <width>341</width>
+           <height>42</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_2"/>
+          </item>
+          <item>
+           <widget class="QCommandLinkButton" name="commandLinkButton_7">
+            <property name="maximumSize">
+             <size>
+              <width>80</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>查询</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_13">
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>删除</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
       </widget>
      </widget>
     </widget>
@@ -477,17 +584,85 @@
        <rect>
         <x>20</x>
         <y>10</y>
-        <width>1051</width>
+        <width>1221</width>
         <height>591</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
         <string> 检测设置</string>
        </attribute>
+       <widget class="QFrame" name="frame_2">
+        <property name="geometry">
+         <rect>
+          <x>19</x>
+          <y>9</y>
+          <width>801</width>
+          <height>531</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QLabel" name="label_17">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>0</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>喷丝板数据</string>
+         </property>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>761</width>
+           <height>251</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>版型数据</string>
+         </property>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>290</y>
+           <width>761</width>
+           <height>241</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string> 孔型数据</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_5">
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>10</y>
+          <width>321</width>
+          <height>531</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string> 喷丝板指标选择</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
