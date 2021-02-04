@@ -13,8 +13,9 @@
         <file>img/microcamera.bmp</file>
         <file>img/preview.png</file>
         <file>img/wholecamera.bmp</file>
-        <file>img/init.png</file>
-        <file>img/backward.png</file>
-        <file>img/forward.png</file>
+        <file>img/logo.png</file>
+        <file>../../sjtu_QT_bishe/kj0127/img/exp.png</file>
+        <file>img/exp.png</file>
+        <file>img/comp.png</file>
     </qresource>
 </RCC>
