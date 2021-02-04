@@ -16,8 +16,6 @@ public:
     ~MainWindow();
 
 private slots:
-    void receivelogin();
-
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
@@ -37,10 +35,6 @@ private slots:
     void on_pushButton_AxStop_clicked();
 
     void on_pushButton_AxPosReset_clicked();
-
-    void on_label_11_linkActivated(const QString &link);
-
-    void on_pushButton_8_clicked();
 
 private:
     Ui::MainWindow *ui;
