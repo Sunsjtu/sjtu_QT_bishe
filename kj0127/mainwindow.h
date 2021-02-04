@@ -40,6 +40,8 @@ private slots:
 
     void on_label_11_linkActivated(const QString &link);
 
+    void on_pushButton_8_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

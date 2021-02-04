@@ -149,3 +149,8 @@ void MainWindow::on_pushButton_AxPosReset_clicked()
 }
 
 
+
+void MainWindow::on_pushButton_8_clicked()
+{
+
+}
