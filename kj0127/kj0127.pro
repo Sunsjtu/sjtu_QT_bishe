@@ -26,6 +26,14 @@ HEADERS += \
     include/AdvMotDrv.h \
     include/AdvMotErr.h \
     include/AdvMotPropID.h \
+    include/GigECamera_Types.h \
+    include/MVAvi.h \
+    include/MVCamProptySheet.h \
+    include/MVGigE.h \
+    include/MVImage.h \
+    include/MVImageC.h \
+    include/MVRecordDlg.h \
+    include/MVSequenceDlg.h \
     include/MyParameter.h \
     login.h \
     mainwindow.h
@@ -50,4 +58,28 @@ unix|win32: LIBS += -L$$PWD/lib/ -lADVMOT
 INCLUDEPATH += $$PWD/include
 DEPENDPATH += $$PWD/include
 
+DESTDIR = $$PWD/bin/QTBin/MSVC
 
+win32: LIBS += -L$$PWD/lib/ -lMVTickDlg
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/lib/MVTickDlg.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/lib/libMVTickDlg.a
+
+win32: LIBS += -L$$PWD/lib/ -lMVGigE
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/lib/MVGigE.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/lib/libMVGigE.a
+
+win32: LIBS += -L$$PWD/lib/ -lMVCamProptySheet
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/lib/MVCamProptySheet.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/lib/libMVCamProptySheet.a

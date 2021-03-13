@@ -41,7 +41,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_2">
            <attribute name="title">
@@ -85,7 +85,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_27">
+               <widget class="QLabel" name="label_cam">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -115,9 +115,6 @@
                 </property>
                 <property name="text">
                  <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap resource="res.qrc">:/img/preview.png</pixmap>
                 </property>
                 <property name="scaledContents">
                  <bool>true</bool>
@@ -224,7 +221,7 @@
                  <number>10</number>
                 </property>
                 <item>
-                 <widget class="QCommandLinkButton" name="commandLinkButton_17">
+                 <widget class="QCommandLinkButton" name="StartGrab">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -262,7 +259,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QCommandLinkButton" name="commandLinkButton_18">
+                 <widget class="QCommandLinkButton" name="StopGrab">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -521,7 +518,7 @@
                  <number>20</number>
                 </property>
                 <item>
-                 <widget class="QPushButton" name="pushButton_6">
+                 <widget class="QPushButton" name="SingleGrab">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -541,12 +538,12 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>跳过该孔</string>
+                   <string>   单张拍摄</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_9">
+                 <widget class="QPushButton" name="Attribute">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -572,7 +569,7 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>保存该孔数据</string>
+                   <string> 属性</string>
                   </property>
                  </widget>
                 </item>
@@ -632,7 +629,7 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QCommandLinkButton" name="commandLinkButton_21">
+                 <widget class="QCommandLinkButton" name="SaveImage">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -964,9 +961,6 @@
                   <widget class="QLabel" name="label_39">
                    <property name="text">
                     <string/>
-                   </property>
-                   <property name="pixmap">
-                    <pixmap resource="res.qrc">:/img/exp.png</pixmap>
                    </property>
                    <property name="scaledContents">
                     <bool>true</bool>
@@ -1429,7 +1423,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget_2">
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_3">
            <attribute name="title">
@@ -3798,7 +3792,7 @@ QPushButton:pressed
      <x>0</x>
      <y>0</y>
      <width>1253</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

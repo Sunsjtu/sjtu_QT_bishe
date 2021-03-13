@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "MVGigE.h"
+#include "MVImageC.h"
+#include "MVCamProptySheet.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -14,7 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    int showStreamOnLabel(MV_IMAGE_INFO* pInfo);
 private slots:
     void receivelogin();
 
@@ -38,11 +41,25 @@ private slots:
 
     void on_pushButton_AxPosReset_clicked();
 
-    void on_label_11_linkActivated(const QString &link);
+    //void on_label_11_linkActivated(const QString &link);
 
-    void on_pushButton_8_clicked();
+    void on_StartGrab_clicked();
+
+    void on_StopGrab_clicked();
+
+    void on_SingleGrab_clicked();
+
+    void on_Attribute_clicked();
+
+    void on_SaveImage_clicked();
 
 private:
     Ui::MainWindow *ui;
+    void initialCamera();
+    void drawImage();
+    bool m_bRun;
+    HANDLE m_hCam;
+    HANDLE m_hPropDlg;
+    HANDLE m_hImg;
 };
 #endif // MAINWINDOW_H

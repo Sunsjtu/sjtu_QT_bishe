@@ -1,4 +1,4 @@
-#ifndef LOGIN_H
+﻿#ifndef LOGIN_H
 #define LOGIN_H
 
 #include <QDialog>
@@ -17,7 +17,7 @@ public:
 signals:
     void showmain();
 private slots:
-    void on_label_linkActivated(const QString &link);
+    //void on_label_linkActivated(const QString &link);
 
     void on_pushButton_2_clicked();
 

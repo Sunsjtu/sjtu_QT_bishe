@@ -3,18 +3,48 @@
 #include<QVBoxLayout>
 //#include "MyParameter.h"
 
+#include <QMessageBox>
+#include <QDebug>
+#include <QFileDialog>
+#include <QScreen>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_bRun(false)
+    , m_hCam(NULL)
+    ,m_hPropDlg(NULL)
+    , m_hImg(NULL)
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
+    initialCamera();
+    QScreen *screen=QGuiApplication::primaryScreen ();
+    QRect mm= screen->availableGeometry() ;
+    int screen_width = mm.width();
+    int screen_height = mm.height();
+    ui->label_cam->setMaximumSize(screen_width,screen_height);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    if (m_hCam != NULL)
+    {
+        //1 MVGigE.h
+        MVCloseCam(m_hCam);
+        m_hCam = NULL;
+    }
+
+    if (m_hPropDlg != NULL)
+    {
+       // 销毁属性页对话框
+       // 2 MVCamProptySheet.h
+        MVCamProptySheetDestroy(m_hPropDlg);
+        m_hPropDlg = NULL;
+    }
+   // 1 MVGigE.h
+    MVTerminateLib();
 }
 
 
@@ -62,7 +92,7 @@ void MainWindow::on_pushButton_AxInit_clicked()
 //    u32Return = Acm_DevOpen(u32DevSerisNum, &pDevHandle);//打开板卡，获取设备Handle
 //    u32Return = Acm_GetU32Property(pDevHandle, FT_DevAxesCount, &u32AxisCount);//获取轴数量
 
-//    //根据轴数，将所有轴打开
+    //根据轴数，将所有轴打开
 //    for (uint u32AxisNum=0; u32AxisNum<u32AxisCount; u32AxisNum++)
 //    {
 //        u32Return = Acm_AxOpen(pDevHandle, (USHORT)u32AxisNum, &pAxisHandle[u32AxisNum]);//打开轴，获取每个轴的Handle
@@ -123,9 +153,6 @@ void MainWindow::on_pushButton_AxMov_clicked()
 //    ui -> label_AxCmdPos -> setNum(fCmdPosition);
 //    ui -> label_AxState -> setNum(u16State);
 
-
-
-
 }
 
 
@@ -149,8 +176,241 @@ void MainWindow::on_pushButton_AxPosReset_clicked()
 }
 
 
-
-void MainWindow::on_pushButton_8_clicked()
+int __stdcall StreamCB(MV_IMAGE_INFO* pInfo, ULONG_PTR nUserVal)
 {
+    MainWindow* pWd = (MainWindow*)nUserVal;
+    return (pWd->showStreamOnLabel(pInfo));
+}
 
+int MainWindow::showStreamOnLabel(MV_IMAGE_INFO* pInfo)
+{
+    MVInfo2Image(m_hCam,pInfo,(MVImage*)m_hImg);
+    drawImage();
+    return 0;
+}
+
+void MainWindow::initialCamera()
+{
+    // 设置鼠标等待效果
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    // 初始化相机函数库
+    MVInitLib();
+    // 打开相机
+    int nCams = 0;
+    //MVGigE.h
+    MVGetNumOfCameras(&nCams);
+#ifdef __SINGLEGRAB__
+    qDebug("found %d cameras\n",nCams);
+#endif
+    //无相机
+    if (nCams == 0)
+    {
+        //恢复鼠标效果
+        QApplication::restoreOverrideCursor();
+        QMessageBox::StandardButton t_Re = QMessageBox::warning(this,"Warning","Can't find camera",QMessageBox::Yes);
+        if(t_Re == QMessageBox::Yes)
+        {
+            return ;
+        }
+    }
+    //打开连接到电脑上的第一个相机
+    MVSTATUS_CODES r = MVOpenCamByIndex(0, &m_hCam);
+    if (m_hCam == NULL)
+    {
+        if (r == MVST_ACCESS_DENIED)
+        {
+            QMessageBox::StandardButton t_Re = QMessageBox::warning(this,"Warning","Access camera failed",QMessageBox::Yes);
+            {
+                return ;
+            }
+        }
+        else
+        {
+            QMessageBox::StandardButton t_Re = QMessageBox::warning(this,"Warning","Open camera failed",QMessageBox::Yes);
+            if(t_Re == QMessageBox::Yes)
+            {
+                return ;
+            }
+        }
+        return;
+    }
+    TriggerModeEnums enumMode;
+    MVGetTriggerMode(m_hCam, &enumMode);
+    if (enumMode != TriggerMode_Off)
+    {
+         //设置为连续非触发模式
+         MVSetTriggerMode(m_hCam, TriggerMode_Off);
+    }
+    int w, h;
+    //3 GigECamera_Types.h
+    MV_PixelFormatEnums PixelFormat;
+    MVGetWidth(m_hCam, &w);
+    MVGetHeight(m_hCam, &h);
+    MVGetPixelFormat(m_hCam, &PixelFormat);
+    //根据相机的宽、高、像素格式创建图像
+    if (PixelFormat == PixelFormat_Mono8)
+    {
+        m_hImg = MVImageCreate(w, h, 8);
+        #ifdef __SINGLEGRAB__
+                qDebug() << "图像创建：" << 8;
+        #endif
+    }
+    else
+    {
+        m_hImg = MVImageCreate(w, h, 24);
+        #ifdef __SINGLEGRAB__
+                qDebug() << "图像创建：" << 24;
+        #endif
+    }
+    //设置相机属性页
+    if (m_hPropDlg == NULL)
+    {
+        //创建及初始化属性页对话框
+        const char t_Title[] = "Camera Properties";
+        LPCTSTR strCaption = (LPCTSTR)t_Title;
+        //2 MVCamProptySheet.h
+        MVCamProptySheetCreateEx(&m_hPropDlg, m_hCam,0,strCaption,0xffff);
+        if (m_hPropDlg == NULL)
+        {
+            QMessageBox::StandardButton t_Re = QMessageBox::warning(this,"Waring","Create property dialog faileds",QMessageBox::Yes);
+            if(t_Re == QMessageBox::Yes)
+           {
+                return ;
+            }
+        }
+    }
+    ui->StartGrab->setEnabled(true);
+    ui->SingleGrab->setEnabled(true);
+    ui->Attribute->setEnabled(true);
+    //恢复鼠标效果
+    QApplication::restoreOverrideCursor();
+}
+
+QImage img2QImage(HANDLE hImg)
+{
+    int w = MVImageGetWidth(hImg);
+    int h = MVImageGetHeight(hImg);
+    int bpp = MVImageGetBPP(hImg);
+    int pitch = MVImageGetPitch(hImg);
+    unsigned char *pImgData = (unsigned char *)MVImageGetBits(hImg);
+
+    if (bpp == 8)
+    {
+        uchar *pSrc = pImgData;
+        QImage image(pSrc, w,h, pitch, QImage::Format_Indexed8);
+        image.setColorCount(256);
+        for (int i = 0; i < 256; i++)
+        {
+            image.setColor(i, qRgb(i, i, i));
+        }
+        return image;
+    }
+    else if (bpp == 24)
+    {
+        const uchar *pSrc = (const uchar*)pImgData;
+        QImage image(pSrc, w,h, pitch, QImage::Format_RGB888);
+        return image.rgbSwapped();
+    }
+    else
+    {
+        return QImage();
+    }
+}
+
+
+void MainWindow::drawImage()
+{
+    QImage t_Image = img2QImage(m_hImg);
+
+    ui->label_cam->setPixmap(QPixmap::fromImage(t_Image));
+    //m_ShowImage->setScaledContents(true);
+#ifdef __SINGLEGRAB__
+    qDebug() << "width " << w << " height " << h << " bpp " << b;
+#endif
+}
+
+void MainWindow::on_StartGrab_clicked()
+{
+    MVStartGrab(m_hCam, StreamCB, (ULONG_PTR)this);
+    m_bRun = TRUE;
+    if (m_hPropDlg != NULL)
+    {
+        //2 MVCamProptySheet.h
+        MVCamProptySheetCameraRun(m_hPropDlg, MVCameraRun_ON);
+    }
+    ui->StartGrab->setEnabled(false);
+    ui->SingleGrab->setEnabled(false);
+    ui->StopGrab->setEnabled(true);
+    ui->SaveImage->setEnabled(true);
+}
+
+void MainWindow::on_StopGrab_clicked()
+{
+    MVStopGrab(m_hCam);
+    m_bRun = FALSE;
+    if (m_hPropDlg != NULL)
+    {
+        //2 MVCamProptySheet.h
+        MVCamProptySheetCameraRun(m_hPropDlg, MVCameraRun_OFF);
+    }
+    ui->StartGrab->setEnabled(true);
+    ui->SingleGrab->setEnabled(true);
+    ui->StopGrab->setEnabled(false);
+    ui->SaveImage->setEnabled(false);
+}
+
+void MainWindow::on_SingleGrab_clicked()
+{
+    MVSTATUS_CODES r = MVSingleGrab(m_hCam, m_hImg, 500);
+    if (r == MVST_SUCCESS)
+    {
+        drawImage();
+    }
+    else
+    {
+        QMessageBox::StandardButton t_Re = QMessageBox::warning(this,"警告","图像采集失败",QMessageBox::Yes);
+        if(t_Re == QMessageBox::Yes)
+        {
+            return ;
+        }
+    }
+    ui->StartGrab->setEnabled(true);
+    ui->SingleGrab->setEnabled(true);
+    ui->StopGrab->setEnabled(false);
+    ui->SaveImage->setEnabled(true);
+}
+
+void MainWindow::on_Attribute_clicked()
+{
+    if (m_hPropDlg != NULL)
+    {
+        //2 MVCamProptySheet.h
+        MVCamProptySheetShow(m_hPropDlg, SW_SHOW);
+    }
+}
+
+void MainWindow::on_SaveImage_clicked()
+{
+    bool t_Run = false;
+    if (m_bRun)
+    {
+        t_Run = true;
+        on_StopGrab_clicked();
+    }
+    HANDLE t_Img = MVImageCreate(MVImageGetWidth(m_hImg), MVImageGetHeight(m_hImg), MVImageGetBPP(m_hImg));
+    memcpy(MVImageGetBits(t_Img), MVImageGetBits(m_hImg), MVImageGetPitch(t_Img) * MVImageGetHeight(t_Img));
+    QString t_FileName = QFileDialog::getSaveFileName(this, tr("保存图像"),
+                               "untitled.bmp",
+                               tr("Images (*.png *.xpm *.jpg *.bmp *.tif)"));
+    char t_File[100];
+    sprintf(t_File,"%s",t_FileName.toStdString().c_str());
+    if (!t_FileName.isEmpty())
+    {
+        MVImageSave(t_Img,t_File);
+    }
+    MVImageDestroy(t_Img);
+    if (t_Run)
+    {
+        on_StartGrab_clicked();
+    }
 }
