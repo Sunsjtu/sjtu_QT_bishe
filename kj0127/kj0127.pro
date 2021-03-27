@@ -21,6 +21,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    ant_path.h \
     include/AdvMotApi.h \
     include/AdvMotDev.h \
     include/AdvMotDrv.h \
@@ -46,6 +47,9 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+INCLUDEPATH += C:/opencv/build/include \
+               C:/opencv/build/include/opencv2 \
 
 DISTFILES += \
     img/config.png
@@ -83,3 +87,15 @@ DEPENDPATH += $$PWD/include
 
 win32:!win32-g++: PRE_TARGETDEPS += $$PWD/lib/MVCamProptySheet.lib
 else:win32-g++: PRE_TARGETDEPS += $$PWD/lib/libMVCamProptySheet.a
+
+#opencv
+LIBS += C:/opencv/build/x64/vc15/lib/opencv_world451.lib
+LIBS += C:/opencv/build/x64/vc15/lib/opencv_world451d.lib
+
+win32: LIBS += -L$$PWD/lib/ -lADVMOT
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/lib/ADVMOT.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/lib/libADVMOT.a

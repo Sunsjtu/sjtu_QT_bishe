@@ -4,7 +4,7 @@
 #endif // MYPARAMETER_H
 
 #include "AdvMotApi.h"
-#include"windows.h"
+//#include"windows.h"
 //#include "AdvMotDev.h"
 //#include "AdvMotDrv.h"
 //#include "AdvMotErr.h"

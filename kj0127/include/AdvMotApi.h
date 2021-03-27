@@ -18,6 +18,7 @@ extern "C"
 #include "AdvMotDrv.h"
 #include "AdvMotPropID.h"
 #include "AdvMotErr.h"
+#include "Windows.h"
 
 
 //Add for other Corp.           //  [6/8/2011 dan.yang]
@@ -103,10 +104,10 @@ typedef struct _DEV_PRE_SCAN_DATA
 #endif
 
 #ifndef  ADVCMNAPI
-#if (_MSC_VER >= 800) || defined(_STDCALL_SUPPORTED)
+//#if (_MSC_VER >= 800) || defined(_STDCALL_SUPPORTED)
 #define  ADVCMNAPI      __stdcall
 #endif
-#endif
+//#endif
 
 /*
 +-----------------------------------------------------------------------------+

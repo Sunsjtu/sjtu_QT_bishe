@@ -6,6 +6,7 @@
 #include "MVImageC.h"
 #include "MVCamProptySheet.h"
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -29,9 +30,9 @@ private slots:
 
     void on_comboBox_2_currentIndexChanged(int index);
 
-    void on_radioButton_clicked(bool checked);
+    void on_radioButton_RelativeDistance_clicked(bool checked);
 
-    void on_radioButton_2_clicked(bool checked);
+    void on_radioButton_AbsoluteDistance_clicked(bool checked);
 
     void on_pushButton_AxMov_clicked();
 
@@ -52,6 +53,18 @@ private slots:
     void on_Attribute_clicked();
 
     void on_SaveImage_clicked();
+
+    void on_holelocation_clicked();
+
+    void on_microhole_clicked();
+
+    void on_forward_pressed();
+
+    void on_back_pressed();
+
+    void on_left_pressed();
+
+    void on_right_pressed();
 
 private:
     Ui::MainWindow *ui;
