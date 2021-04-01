@@ -21,11 +21,18 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    ant_path.h \
     include/AdvMotApi.h \
     include/AdvMotDev.h \
     include/AdvMotDrv.h \
     include/AdvMotErr.h \
     include/AdvMotPropID.h \
+    include/GigECamera_Types.h \
+    include/MVAvi.h \
+    include/MVCamProptySheet.h \
+    include/MVGigE.h \
+    include/MVImage.h \
+    include/MVImageC.h \
     include/MyParameter.h \
     login.h \
     mainwindow.h
@@ -39,15 +46,53 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+INCLUDEPATH += C:/opencv/build/include \
+               C:/opencv/build/include/opencv2 \
+
 DISTFILES += \
     img/config.png
 
 RESOURCES += \
     res.qrc
 
-unix|win32: LIBS += -L$$PWD/lib/ -lADVMOT
+
+
+DESTDIR = $$PWD/bin/QTBin/MSVC
+
+win32: LIBS += -L$$PWD/lib/ -lMVTickDlg
 
 INCLUDEPATH += $$PWD/include
 DEPENDPATH += $$PWD/include
 
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/lib/MVTickDlg.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/lib/libMVTickDlg.a
 
+win32: LIBS += -L$$PWD/lib/ -lMVGigE
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/lib/MVGigE.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/lib/libMVGigE.a
+
+win32: LIBS += -L$$PWD/lib/ -lMVCamProptySheet
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/lib/MVCamProptySheet.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/lib/libMVCamProptySheet.a
+
+#opencv
+LIBS += C:/opencv/build/x64/vc15/lib/opencv_world451.lib
+LIBS += C:/opencv/build/x64/vc15/lib/opencv_world451d.lib
+
+
+
+win32: LIBS += -L$$PWD/lib/ -lADVMOT
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/lib/ADVMOT.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/lib/libADVMOT.a

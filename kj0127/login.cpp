@@ -12,3 +12,8 @@ login::~login()
 {
     delete ui;
 }
+
+void login::on_pushButton_2_clicked()
+{
+    accept();
+}

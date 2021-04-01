@@ -1,2 +1,19 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/">
+        <file>img/camera.png</file>
+        <file>img/ok.png</file>
+        <file>img/light.png</file>
+        <file>img/pause.png</file>
+        <file>img/restart.png</file>
+        <file>img/search.png</file>
+        <file>img/start.png</file>
+        <file>img/stop.png</file>
+        <file>img/delete.png</file>
+        <file>img/save.png</file>
+        <file>img/microcamera.bmp</file>
+        <file>img/preview.png</file>
+        <file>img/wholecamera.bmp</file>
+        <file>img/logo.png</file>
+        <file>img/comp.png</file>
+    </qresource>
+</RCC>
